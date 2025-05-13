@@ -47,7 +47,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     @Override
     public void add(Organization organization) {
-        String sql = "INSERT INTO rental.organization (website, name, inn) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO rental.organization (website_url, organization_name, tax_id) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, organization.getWebsite());
             stmt.setString(2, organization.getName());
@@ -60,7 +60,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
     @Override
     public void update(Organization organization) {
-        String sql = "UPDATE rental.organization SET website = ?, name = ?, inn = ? WHERE organization_id = ?";
+        String sql = "UPDATE rental.organization SET website_url = ?, organization_name = ?, tax_id = ? WHERE organization_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, organization.getWebsite());
             stmt.setString(2, organization.getName());
@@ -86,9 +86,9 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     private Organization mapRowToOrganization(ResultSet rs) throws SQLException {
         return new Organization(
                 rs.getInt("organization_id"),
-                rs.getString("website"),
-                rs.getString("name"),
-                rs.getString("inn")
+                rs.getString("website_url"),
+                rs.getString("organization_name"),
+                rs.getString("tax_id")
         );
     }
 }

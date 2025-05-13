@@ -13,14 +13,14 @@ public class LeaseTerminationDAOImpl implements LeaseTerminationDAO {
 
     @Override
     public Optional<LeaseTermination> findByAgreementNumber(String agreementNumber) {
-        String sql = "SELECT * FROM rental.lease_termination WHERE agreement_number = ?";
+        String sql = "SELECT * FROM rental.contract_termination WHERE termination_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, agreementNumber);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return Optional.of(new LeaseTermination(
-                        rs.getString("agreement_number"),
-                        rs.getString("reason"),
+                        rs.getString("termination_id"),
+                        rs.getString("termination_reason"),
                         rs.getDate("termination_date")
                 ));
             }
@@ -33,7 +33,7 @@ public class LeaseTerminationDAOImpl implements LeaseTerminationDAO {
 
     @Override
     public void add(LeaseTermination termination) {
-        String sql = "INSERT INTO rental.lease_termination (agreement_number, reason, termination_date) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO rental.contract_termination (termination_id, termination_reason, termination_date) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, termination.getAgreementNumber());
             stmt.setString(2, termination.getReason());
@@ -46,7 +46,7 @@ public class LeaseTerminationDAOImpl implements LeaseTerminationDAO {
 
     @Override
     public void update(LeaseTermination termination) {
-        String sql = "UPDATE rental.lease_termination SET reason = ?, termination_date = ? WHERE agreement_number = ?";
+        String sql = "UPDATE rental.contract_termination SET termination_reason = ?, termination_date = ? WHERE termination_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, termination.getReason());
             stmt.setDate(2, termination.getTerminationDate());
@@ -59,7 +59,7 @@ public class LeaseTerminationDAOImpl implements LeaseTerminationDAO {
 
     @Override
     public void delete(String agreementNumber) {
-        String sql = "DELETE FROM rental.lease_termination WHERE agreement_number = ?";
+        String sql = "DELETE FROM rental.contract_termination WHERE termination_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, agreementNumber);
             stmt.executeUpdate();

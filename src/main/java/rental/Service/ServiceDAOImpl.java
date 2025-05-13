@@ -48,7 +48,7 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public void add(Service service) {
-        String sql = "INSERT INTO rental.service (service_code, name, cost, service_type) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO rental.service (service_code, service_name, service_cost, service_type) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, service.getServiceCode());
             stmt.setString(2, service.getName());
@@ -62,7 +62,7 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public void update(Service service) {
-        String sql = "UPDATE rental.service SET name = ?, cost = ?, service_type = ? WHERE service_code = ?";
+        String sql = "UPDATE rental.service SET service_name = ?, service_cost = ?, service_type = ? WHERE service_code = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, service.getName());
             stmt.setBigDecimal(2, service.getCost());
@@ -88,8 +88,8 @@ public class ServiceDAOImpl implements ServiceDAO {
     private Service mapRowToService(ResultSet rs) throws SQLException {
         return new Service(
                 rs.getInt("service_code"),
-                rs.getString("name"),
-                rs.getBigDecimal("cost"),
+                rs.getString("service_name"),
+                rs.getBigDecimal("service_cost"),
                 rs.getString("service_type")
         );
     }

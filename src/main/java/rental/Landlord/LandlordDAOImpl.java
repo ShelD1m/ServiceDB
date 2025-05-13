@@ -15,14 +15,13 @@ public class LandlordDAOImpl implements LandlordDAO {
     @Override
     public List<Landlord> findAll() {
         List<Landlord> list = new ArrayList<>();
-        // Используйте lowercase_underscore для имен таблиц/столбцов в SQL
-        String sql = "SELECT landlord_id, passport_series_number, full_name, phone_number FROM rental.landlord";
+        String sql = "SELECT landlord_id, passport_number, full_name, phone_number FROM rental.landlord";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(new Landlord(
                         rs.getInt("landlord_id"),
-                        rs.getString("passport_series_number"),
+                        rs.getString("passport_number"),
                         rs.getString("full_name"),
                         rs.getString("phone_number")
                 ));
@@ -35,7 +34,7 @@ public class LandlordDAOImpl implements LandlordDAO {
 
     @Override
     public void add(Landlord landlord) {
-               String sql = "INSERT INTO rental.landlord (passport_series_number, full_name, phone_number) VALUES (?, ?, ?)";
+               String sql = "INSERT INTO rental.landlord (passport_number, full_name, phone_number) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, landlord.getPassportSeriesNumber());
             stmt.setString(2, landlord.getFullName());
@@ -48,7 +47,7 @@ public class LandlordDAOImpl implements LandlordDAO {
 
     @Override
     public void update(Landlord landlord) {
-        String sql = "UPDATE rental.landlord SET passport_series_number = ?, full_name = ?, phone_number = ? WHERE landlord_id = ?";
+        String sql = "UPDATE rental.landlord SET passport_number = ?, full_name = ?, phone_number = ? WHERE landlord_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, landlord.getPassportSeriesNumber());
             stmt.setString(2, landlord.getFullName());

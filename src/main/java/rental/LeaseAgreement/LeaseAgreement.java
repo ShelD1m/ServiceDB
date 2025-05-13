@@ -9,15 +9,15 @@ public class LeaseAgreement {
     private int tenantId;
     private int apartmentId;
     private Date signingDate;
-    private int termMonths;
+    private String contractDuration;
 
-    public LeaseAgreement(String agreementNumber, int landlordId, int tenantId, int apartmentId, Date signingDate, int termMonths) {
+    public LeaseAgreement(String agreementNumber, int landlordId, int tenantId, int apartmentId, Date signingDate, String contractDuration) {
         this.agreementNumber = agreementNumber;
         this.landlordId = landlordId;
         this.tenantId = tenantId;
         this.apartmentId = apartmentId;
         this.signingDate = signingDate;
-        this.termMonths = termMonths;
+        this.contractDuration = contractDuration;
     }
 
     public String getAgreementNumber() { return agreementNumber; }
@@ -35,6 +35,6 @@ public class LeaseAgreement {
     public Date getSigningDate() { return signingDate; }
     public void setSigningDate(Date signingDate) { this.signingDate = signingDate; }
 
-    public int getTermMonths() { return termMonths; }
-    public void setTermMonths(int termMonths) { this.termMonths = termMonths; }
+    public String getTermMonths() { return contractDuration; }
+    public void setTermMonths(int termMonths) { this.contractDuration= contractDuration; }
 }

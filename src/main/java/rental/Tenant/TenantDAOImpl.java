@@ -15,13 +15,13 @@ public class TenantDAOImpl implements TenantDAO {
     @Override
     public List<Tenant> findAll() {
         List<Tenant> list = new ArrayList<>();
-        String sql = "SELECT tenant_id, passport_series_number, phone_number, full_name FROM rental.tenant";
+        String sql = "SELECT tenant_id, passport_number, phone_number, full_name FROM rental.tenant";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(new Tenant(
                         rs.getInt("tenant_id"),
-                        rs.getString("passport_series_number"),
+                        rs.getString("passport_number"),
                         rs.getString("phone_number"),
                         rs.getString("full_name")
                 ));
@@ -34,7 +34,7 @@ public class TenantDAOImpl implements TenantDAO {
 
     @Override
     public void add(Tenant tenant) {
-        String sql = "INSERT INTO rental.tenant (passport_series_number, phone_number, full_name) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO rental.tenant (passport_number, phone_number, full_name) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, tenant.getPassportSeriesNumber());
             stmt.setString(2, tenant.getPhoneNumber());
@@ -47,7 +47,7 @@ public class TenantDAOImpl implements TenantDAO {
 
     @Override
     public void update(Tenant tenant) {
-        String sql = "UPDATE rental.tenant SET passport_series_number = ?, phone_number = ?, full_name = ? WHERE tenant_id = ?";
+        String sql = "UPDATE rental.tenant SET passport_number = ?, phone_number = ?, full_name = ? WHERE tenant_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, tenant.getPassportSeriesNumber());
             stmt.setString(2, tenant.getPhoneNumber());
